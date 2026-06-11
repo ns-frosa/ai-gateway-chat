@@ -1,0 +1,14 @@
+{
+  "name": "Claude via AIGW",
+  "api_type": "claude",
+  "endpoint_template": "http://{host}/v1/{cust_model}/model/{model_id}/invoke",
+  "host": "",
+  "cust_model": "cust-model",
+  "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
+  "bearer_token": "",
+  "api_key": "",
+  "anthropic_version": "bedrock-2023-05-31",
+  "max_tokens": 1024,
+  "extra_headers": {},
+  "extra_body": {}
+}

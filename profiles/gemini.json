@@ -1,0 +1,10 @@
+{
+  "name": "Gemini via AIGW",
+  "api_type": "gemini",
+  "host": "",
+  "model": "gemini-2.0-flash-lite",
+  "gemini_key": "",
+  "api_key": "",
+  "extra_headers": {},
+  "extra_body": {}
+}

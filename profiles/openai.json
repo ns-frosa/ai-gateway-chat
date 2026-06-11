@@ -1,0 +1,11 @@
+{
+  "name": "OpenAI via AIGW",
+  "api_type": "openai",
+  "endpoint_template": "http://{host}/v1/cust-openai/v1/responses",
+  "host": "ec2-13-56-196-195.us-west-1.compute.amazonaws.com",
+  "model": "openai.gpt-oss-20b",
+  "bearer_token": "",
+  "api_key": "",
+  "extra_headers": {},
+  "extra_body": {}
+}
