@@ -208,6 +208,56 @@
     #empty-state{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--text-dim);}
     #empty-state .es-icon{font-size:34px;opacity:.25;}
     #empty-state p{font-size:12px;font-family:var(--mono);}
+
+    /* Vault dropdown (per-field saved values) */
+    .vault-anchor{position:relative;display:flex;gap:5px;align-items:center;}
+    .vault-anchor input,.vault-anchor textarea{flex:1;}
+    .vault-btn{background:none;border:1px solid var(--border);border-radius:5px;color:var(--text-dim);cursor:pointer;font-size:11px;padding:4px 6px;flex-shrink:0;transition:all .15s;white-space:nowrap;}
+    .vault-btn:hover{border-color:var(--accent);color:var(--accent);}
+    #vault-drop{position:fixed;background:var(--surface);border:1px solid var(--border-hi);border-radius:9px;box-shadow:0 6px 24px rgba(0,0,0,.5);z-index:300;width:240px;padding:8px;display:none;}
+    #vault-drop.open{display:block;}
+    .vd-title{font-size:10px;font-family:var(--mono);color:var(--text-dim);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px;}
+    .vd-list{display:flex;flex-direction:column;gap:4px;max-height:180px;overflow-y:auto;margin-bottom:7px;}
+    .vd-list::-webkit-scrollbar{width:3px;}
+    .vd-list::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:2px;}
+    .vd-item{display:flex;align-items:center;gap:5px;padding:5px 8px;background:var(--panel);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:border-color .15s;}
+    .vd-item:hover{border-color:var(--accent);}
+    .vd-item-name{flex:1;font-size:11px;font-family:var(--mono);color:var(--text-hi);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .vd-item-del{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:12px;padding:0 3px;transition:color .15s;flex-shrink:0;}
+    .vd-item-del:hover{color:var(--red);}
+    .vd-empty{font-size:10px;font-family:var(--mono);color:var(--text-dim);text-align:center;padding:10px 0;}
+    .vd-save-row{display:flex;gap:5px;}
+    .vd-save-row input{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:5px;color:var(--text);font-size:10px;font-family:var(--mono);padding:5px 7px;outline:none;}
+    .vd-save-row input:focus{border-color:var(--accent);}
+    .vd-save-btn{background:var(--accent);border:none;border-radius:5px;color:#fff;cursor:pointer;font-size:10px;font-family:var(--mono);padding:5px 8px;white-space:nowrap;transition:background .15s;}
+    .vd-save-btn:hover{background:var(--accent-hi);}
+    /* Saved prompts */
+    .saved-list{display:flex;flex-direction:column;gap:5px;max-height:260px;overflow-y:auto;}
+    .saved-list::-webkit-scrollbar{width:3px;}
+    .saved-list::-webkit-scrollbar-thumb{background:var(--border-hi);border-radius:2px;}
+    .saved-item{display:flex;align-items:center;gap:6px;padding:7px 10px;background:var(--panel);border:1px solid var(--border);border-radius:7px;transition:border-color .15s;}
+    .saved-item:hover{border-color:var(--accent);}
+    .saved-item .si-name{flex:1;font-size:12px;font-family:var(--mono);color:var(--text-hi);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+    .saved-item .si-sub{font-size:10px;font-family:var(--mono);color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:180px;}
+    .saved-item .si-del{background:none;border:none;color:var(--text-dim);cursor:pointer;font-size:13px;padding:1px 4px;border-radius:3px;flex-shrink:0;transition:all .15s;}
+    .saved-item .si-del:hover{color:var(--red);}
+    .saved-empty{font-size:11px;font-family:var(--mono);color:var(--text-dim);text-align:center;padding:20px 0;}
+    #prompt-btn{background:var(--panel);border:1px solid var(--border);border-radius:8px;color:var(--text-dim);cursor:pointer;font-size:15px;padding:8px 10px;flex-shrink:0;transition:all .15s;}
+    #prompt-btn:hover{border-color:var(--accent);color:var(--accent);}
+
+    /* Help modal */
+    #help-modal .modal{width:720px;max-height:88vh;}
+    .help-section{margin-bottom:18px;}
+    .help-section h4{font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;padding-bottom:5px;border-bottom:1px solid var(--border);}
+    .help-section p,.help-section li{font-size:12px;color:var(--text-dim);line-height:1.7;font-family:var(--mono);}
+    .help-section ul{padding-left:18px;margin-top:4px;}
+    .help-section li{margin-bottom:3px;}
+    .help-code{background:var(--bg);border:1px solid var(--border);border-radius:7px;padding:11px;font-family:var(--mono);font-size:11px;color:var(--text);white-space:pre;overflow-x:auto;margin-top:7px;line-height:1.6;}
+    .help-kv{display:grid;grid-template-columns:160px 1fr;gap:4px 12px;font-size:11px;font-family:var(--mono);margin-top:6px;}
+    .help-kv .hk{color:var(--accent-hi);}
+    .help-kv .hv{color:var(--text-dim);}
+    .api-type-opt.custom{border-color:var(--border);}
+    .api-type-opt.selected.custom{border-color:var(--accent);background:rgba(59,130,246,.07);}
   </style>
 </head>
 <body>
@@ -242,11 +292,17 @@
       <div class="cfg-section-title">Connection</div>
       <div class="cfg-row" id="row-host">
         <label>Host / IP</label>
-        <input type="text" id="cfg-host" placeholder="ec2-xx.us-west-1.compute.amazonaws.com" oninput="updateModelDisplay()" />
+        <div class="vault-anchor">
+          <input type="text" id="cfg-host" placeholder="ec2-xx.us-west-1.compute.amazonaws.com" oninput="updateModelDisplay()" />
+          <button class="vault-btn" onclick="openVault('host','cfg-host',this)">🔖</button>
+        </div>
       </div>
       <div class="cfg-row" id="row-endpoint" style="display:none">
-        <label>Full Endpoint URL</label>
-        <input type="text" id="cfg-endpoint" placeholder="http://host/v1/cust-openai/v1/responses" />
+        <label>Full URL Override</label>
+        <div class="vault-anchor">
+          <input type="text" id="cfg-endpoint" placeholder="http://host/v1/cust-openai/v1/responses" />
+          <button class="vault-btn" onclick="openVault('endpoint','cfg-endpoint',this)">🔖</button>
+        </div>
       </div>
       <div class="cfg-row" id="row-cust-model" style="display:none">
         <label>Custom Model Path Segment</label>
@@ -262,23 +318,32 @@
       <div class="cfg-section-title">Authentication</div>
       <div class="cfg-row" id="row-bearer">
         <label>Bearer Token</label>
-        <div class="pwd-wrap">
-          <input type="password" id="cfg-bearer" placeholder="token..." />
-          <button class="pwd-toggle" onclick="togglePwd('cfg-bearer',this)">👁</button>
+        <div class="vault-anchor">
+          <div class="pwd-wrap" style="flex:1">
+            <input type="password" id="cfg-bearer" placeholder="token..." />
+            <button class="pwd-toggle" onclick="togglePwd('cfg-bearer',this)">👁</button>
+          </div>
+          <button class="vault-btn" onclick="openVault('bearer','cfg-bearer',this)">🔖</button>
         </div>
       </div>
       <div class="cfg-row" id="row-gemini-key" style="display:none">
         <label>x-goog-api-key (Gemini)</label>
-        <div class="pwd-wrap">
-          <input type="password" id="cfg-gemini-key" placeholder="gemini key..." />
-          <button class="pwd-toggle" onclick="togglePwd('cfg-gemini-key',this)">👁</button>
+        <div class="vault-anchor">
+          <div class="pwd-wrap" style="flex:1">
+            <input type="password" id="cfg-gemini-key" placeholder="gemini key..." />
+            <button class="pwd-toggle" onclick="togglePwd('cfg-gemini-key',this)">👁</button>
+          </div>
+          <button class="vault-btn" onclick="openVault('geminikey','cfg-gemini-key',this)">🔖</button>
         </div>
       </div>
       <div class="cfg-row">
         <label>x-ns-aig-apikey</label>
-        <div class="pwd-wrap">
-          <input type="password" id="cfg-apikey" placeholder="eyJhbGci..." />
-          <button class="pwd-toggle" onclick="togglePwd('cfg-apikey',this)">👁</button>
+        <div class="vault-anchor">
+          <div class="pwd-wrap" style="flex:1">
+            <input type="password" id="cfg-apikey" placeholder="eyJhbGci..." />
+            <button class="pwd-toggle" onclick="togglePwd('cfg-apikey',this)">👁</button>
+          </div>
+          <button class="vault-btn" onclick="openVault('apikey','cfg-apikey',this)">🔖</button>
         </div>
       </div>
     </div>
@@ -330,6 +395,7 @@
   </div>
 
   <div id="sidebar-footer">
+    <button class="btn btn-ghost" style="flex:none;padding:7px 10px" onclick="openHelp()" title="How to create profiles">?</button>
     <button class="btn btn-ghost" onclick="testConnection()">⚡ Test</button>
     <button class="btn btn-primary" onclick="saveCurrentProfile()">💾 Save</button>
   </div>
@@ -381,7 +447,8 @@
     <div id="attached-files"></div>
     <div class="input-row">
       <input type="file" id="file-input" multiple onchange="handleFileSelect(event)" />
-      <button id="file-btn" onclick="document.getElementById('file-input').click()">📎</button>
+      <button id="file-btn" onclick="document.getElementById('file-input').click()" title="Attach file">📎</button>
+      <button id="prompt-btn" onclick="openPrompts()" title="Saved prompts">📚</button>
       <textarea id="msg-input" placeholder="Type a message… (Shift+Enter for newline)" rows="1"
         onkeydown="handleKey(event)" oninput="autoResize(this)"></textarea>
       <button id="send-btn" onclick="sendMessage()">➤</button>
@@ -427,6 +494,11 @@
         <div class="opt-label">Gemini</div>
         <div class="opt-sub">generateContent</div>
       </div>
+      <div class="api-type-opt custom" id="opt-custom" onclick="selectApiType('custom')">
+        <div class="opt-icon">⚙️</div>
+        <div class="opt-label">Custom</div>
+        <div class="opt-sub">any provider</div>
+      </div>
     </div>
     <div class="cfg-row">
       <label>Profile Name</label>
@@ -435,6 +507,131 @@
     <div class="modal-btns">
       <button class="btn btn-ghost" onclick="closeNewProfile()">Cancel</button>
       <button class="btn btn-primary" onclick="createNewProfile()">Create</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── VAULT DROPDOWN ── -->
+<div id="vault-drop">
+  <div class="vd-title" id="vd-title">Saved values</div>
+  <div class="vd-list" id="vd-list"></div>
+  <div class="vd-save-row">
+    <input type="text" id="vd-name-input" placeholder="Name and save current…" onkeydown="if(event.key==='Enter')vaultSaveCurrent()" />
+    <button class="vd-save-btn" onclick="vaultSaveCurrent()">Save</button>
+  </div>
+</div>
+
+<!-- ── PROMPTS MODAL ── -->
+<div class="modal-overlay" id="prompts-modal">
+  <div class="modal" style="width:520px;gap:12px;">
+    <h3>📚 Saved Prompts</h3>
+    <p class="modal-sub">Click a prompt to insert it into the input. Save the current input as a named prompt.</p>
+    <div class="saved-list" id="prompt-list"></div>
+    <div style="display:flex;flex-direction:column;gap:6px;border-top:1px solid var(--border);padding-top:10px;">
+      <input type="text" id="prompt-save-name" placeholder="Prompt name…" style="background:var(--panel);border:1px solid var(--border);border-radius:6px;color:var(--text);font-size:11px;font-family:var(--mono);padding:7px 9px;outline:none;width:100%;" />
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-ghost" onclick="closePrompts()">Close</button>
+      <button class="btn btn-ghost" onclick="savePrompt()">💾 Save current input</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── HELP MODAL ── -->
+<div class="modal-overlay" id="help-modal">
+  <div class="modal" style="width:720px;gap:14px;">
+    <h3>📖 How to Create Profiles</h3>
+    <p class="modal-sub">Profiles are JSON files in the <code style="font-family:var(--mono);color:var(--accent)">profiles/</code> directory. Each file defines connection details and a <code style="font-family:var(--mono);color:var(--accent)">provider</code> block that tells the app how to talk to that model API — no code changes needed.</p>
+
+    <div class="help-section">
+      <h4>Top-level fields</h4>
+      <div class="help-kv">
+        <span class="hk">name</span>           <span class="hv">Display name shown in the profile selector.</span>
+        <span class="hk">api_type</span>       <span class="hv">UI hint only: "openai" | "claude" | "gemini" | "custom". Controls which sidebar fields appear.</span>
+        <span class="hk">host</span>           <span class="hv">Hostname/IP used in the URL template as {host}.</span>
+        <span class="hk">model</span>          <span class="hv">Model name/ID, available as {model} in URL and body templates.</span>
+        <span class="hk">bearer_token</span>   <span class="hv">Sent as Authorization: Bearer {value}.</span>
+        <span class="hk">api_key</span>        <span class="hv">Sent as x-ns-aig-apikey header (AIGW auth).</span>
+        <span class="hk">gemini_key</span>     <span class="hv">Available as {gemini_key} — used in provider.extra_headers.</span>
+        <span class="hk">cust_model</span>     <span class="hv">Available as {cust_model} — Claude URL path segment.</span>
+        <span class="hk">anthropic_version</span><span class="hv">Available as {anthropic_version}.</span>
+        <span class="hk">max_tokens</span>     <span class="hv">Overrides provider default max_tokens if set.</span>
+        <span class="hk">temperature</span>    <span class="hv">Added to the request body when set.</span>
+        <span class="hk">extra_headers</span>  <span class="hv">Key/value headers merged into every request.</span>
+        <span class="hk">extra_body</span>     <span class="hv">Key/value fields merged into the request body (highest priority).</span>
+        <span class="hk">system</span>         <span class="hv">System prompt text — placement controlled by provider.system.</span>
+        <span class="hk">provider</span>       <span class="hv">The block that defines API format. See below.</span>
+      </div>
+    </div>
+
+    <div class="help-section">
+      <h4>provider block</h4>
+      <div class="help-kv">
+        <span class="hk">url</span>            <span class="hv">URL template. Variables: {host}, {model}, {cust_model}, …</span>
+        <span class="hk">messages_key</span>   <span class="hv">Top-level body key for the messages array. e.g. "messages", "input", "contents".</span>
+        <span class="hk">content_key</span>    <span class="hv">Key inside each message for the parts array. e.g. "content", "parts".</span>
+        <span class="hk">role_map</span>       <span class="hv">Remap role names. e.g. {"assistant": "model"} for Gemini.</span>
+        <span class="hk">text_part</span>      <span class="hv">Template object for a text part. Variable: {text}.</span>
+        <span class="hk">image_part</span>     <span class="hv">Template object for an image part. Variables: {data_url}, {mime_type}, {base64}.</span>
+        <span class="hk">extra_body</span>     <span class="hv">Provider defaults merged into body. Templates resolved with profile vars.</span>
+        <span class="hk">extra_headers</span>  <span class="hv">Provider-level headers. e.g. {"x-goog-api-key": "{gemini_key}"}.</span>
+        <span class="hk">system</span>         <span class="hv">null | {"field":"key"} | {"field":"key","template":{…}} | {"as_message":true,"role":"system"}.</span>
+        <span class="hk">response_path</span>  <span class="hv">Dot-path (or array of paths) to extract reply text from the API response.</span>
+      </div>
+      <p style="margin-top:8px;">Path syntax: <code style="color:var(--accent-hi)">key</code> · <code style="color:var(--accent-hi)">key[0]</code> index · <code style="color:var(--accent-hi)">key[*]</code> all items · <code style="color:var(--accent-hi)">key[type=text]</code> filter. Paths tried left-to-right; first non-empty result wins.</p>
+    </div>
+
+    <div class="help-section">
+      <h4>Example — OpenAI Chat Completions (no gateway)</h4>
+      <div class="help-code">{
+  "name": "OpenAI Chat Direct",
+  "api_type": "custom",
+  "host": "api.openai.com",
+  "model": "gpt-4o",
+  "bearer_token": "sk-...",
+  "extra_headers": {},
+  "extra_body": {},
+  "provider": {
+    "url": "https://{host}/v1/chat/completions",
+    "messages_key": "messages",
+    "content_key": "content",
+    "role_map": {},
+    "text_part":  { "type": "text", "text": "{text}" },
+    "image_part": { "type": "image_url", "image_url": { "url": "{data_url}" } },
+    "extra_body": { "model": "{model}" },
+    "extra_headers": {},
+    "system": { "as_message": true, "role": "system" },
+    "response_path": ["choices[0].message.content"]
+  }
+}</div>
+    </div>
+
+    <div class="help-section">
+      <h4>Example — Ollama (local)</h4>
+      <div class="help-code">{
+  "name": "Ollama Local",
+  "api_type": "custom",
+  "host": "localhost:11434",
+  "model": "llama3.2",
+  "extra_headers": {},
+  "extra_body": {},
+  "provider": {
+    "url": "http://{host}/api/chat",
+    "messages_key": "messages",
+    "content_key": "content",
+    "role_map": {},
+    "text_part":  { "role": "user", "content": "{text}" },
+    "image_part": {},
+    "extra_body": { "model": "{model}", "stream": false },
+    "extra_headers": {},
+    "system": { "as_message": true, "role": "system" },
+    "response_path": ["message.content"]
+  }
+}</div>
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn btn-primary" onclick="closeHelp()">Got it</button>
     </div>
   </div>
 </div>
@@ -519,6 +716,7 @@ function getFields() {
   const base = allProfiles[activeIdx] || {};
   return {
     api_type:          base.api_type || 'openai',
+    provider:          base.provider || null,   // provider block drives generic engine
     name:              base.name,
     _filename:         base._filename,
     host:              g('cfg-host'),
@@ -543,20 +741,23 @@ function updateUIForType(type) {
   const isClaude  = type === 'claude';
   const isGemini  = type === 'gemini';
   const isOpenAI  = type === 'openai';
-  show('row-cust-model',        isClaude);
-  show('row-anthropic-version', isClaude);
-  show('row-endpoint',          isOpenAI);
+  const isCustom  = type === 'custom';
+  show('row-cust-model',        isClaude || isCustom);
+  show('row-anthropic-version', isClaude || isCustom);
+  show('row-endpoint',          isCustom);
   show('row-stream-toggle',     isOpenAI);
   show('row-bearer',            !isGemini);
-  show('row-gemini-key',        isGemini);
+  show('row-gemini-key',        isGemini || isCustom);
   document.getElementById('label-model').textContent = isClaude ? 'Model ID (in URL)' : 'Model';
   document.getElementById('cfg-model').placeholder   = isClaude
     ? 'us.anthropic.claude-haiku-4-5-20251001-v1:0'
-    : isGemini ? 'gemini-2.0-flash-lite' : 'openai.gpt-oss-20b';
+    : isGemini ? 'gemini-2.0-flash-lite' : 'model-name';
 
-  const badge = document.getElementById('api-badge-wrap');
-  const labels = { openai:'🟢 OpenAI · Responses API', claude:'🟣 Claude · Bedrock invoke', gemini:'🟠 Gemini · generateContent' };
-  badge.innerHTML = `<div class="api-badge ${type}">${labels[type]||type}</div>`;
+  const badge  = document.getElementById('api-badge-wrap');
+  const labels = { openai:'🟢 OpenAI · Responses API', claude:'🟣 Claude · Bedrock invoke',
+                   gemini:'🟠 Gemini · generateContent', custom:'⚙️ Custom Provider' };
+  const cls    = isCustom ? 'openai' : (type || 'openai'); // reuse openai styling for custom
+  badge.innerHTML = `<div class="api-badge ${cls}">${labels[type] || type}</div>`;
 }
 
 function saveCurrentProfile() {
@@ -663,7 +864,7 @@ async function deleteProfileFile(filename, e) {
 // ─── New Profile Modal ────────────────────────────────────────────
 function openNewProfile() {
   newProfileType = 'openai';
-  ['openai','claude','gemini'].forEach(t => {
+  ['openai','claude','gemini','custom'].forEach(t => {
     document.getElementById(`opt-${t}`).className = `api-type-opt ${t}` + (t==='openai'?' selected':'');
   });
   document.getElementById('new-profile-name').value = '';
@@ -672,17 +873,27 @@ function openNewProfile() {
 function closeNewProfile() { document.getElementById('new-profile-modal').classList.remove('open'); }
 function selectApiType(type) {
   newProfileType = type;
-  ['openai','claude','gemini'].forEach(t => {
+  ['openai','claude','gemini','custom'].forEach(t => {
     document.getElementById(`opt-${t}`).className = `api-type-opt ${t}` + (t===type?' selected':'');
   });
 }
 async function createNewProfile() {
   const name = document.getElementById('new-profile-name').value.trim();
   if (!name) { document.getElementById('new-profile-name').focus(); return; }
+  const customProvider = {
+    url: 'https://{host}/v1/chat/completions',
+    messages_key: 'messages', content_key: 'content', role_map: {},
+    text_part:  { type: 'text', text: '{text}' },
+    image_part: { type: 'image_url', image_url: { url: '{data_url}' } },
+    extra_body: { model: '{model}' }, extra_headers: {},
+    system: { as_message: true, role: 'system' },
+    response_path: ['choices[0].message.content']
+  };
   const templates = {
     openai: { name, api_type:'openai', host:'', model:'', bearer_token:'', api_key:'', extra_headers:{}, extra_body:{} },
     claude: { name, api_type:'claude', host:'', cust_model:'cust-model', model:'us.anthropic.claude-haiku-4-5-20251001-v1:0', anthropic_version:'bedrock-2023-05-31', max_tokens:1024, bearer_token:'', api_key:'', extra_headers:{}, extra_body:{} },
     gemini: { name, api_type:'gemini', host:'', model:'gemini-2.0-flash-lite', gemini_key:'', api_key:'', extra_headers:{}, extra_body:{} },
+    custom: { name, api_type:'custom', host:'', model:'', bearer_token:'', api_key:'', extra_headers:{}, extra_body:{}, provider: customProvider },
   };
   const profile = templates[newProfileType];
   const r = await fetch('/api/profiles/new', {
@@ -744,7 +955,7 @@ async function sendMessage() {
     });
     typingEl.remove();
     const data = await r.json();
-    handleResponse(data, cfg.api_type);
+    handleResponse(data, cfg);
   } catch(e) {
     typingEl.remove(); setConnStatus('err');
     appendAssistantMsg(`Error: ${e.message}`,null,true);
@@ -767,26 +978,74 @@ function buildMessages(cfg) {
   });
 }
 
-function handleResponse(data, apiType) {
+// ─── Response path evaluator ──────────────────────────────────────
+// Supports: "key", "key[0]" (index), "key[*]" (all), "key[k=v]" (filter)
+function evalPath(obj, pathStr) {
+  const segments = pathStr.split('.');
+  let nodes = [obj];
+  for (const seg of segments) {
+    const m = seg.match(/^(\w+)(?:\[([^\]]*)\])?$/);
+    if (!m) continue;
+    const [, key, filter] = m;
+    const next = [];
+    for (const node of nodes) {
+      if (!node || typeof node !== 'object') continue;
+      const val = node[key];
+      if (val === undefined || val === null) continue;
+      if (filter === undefined) {
+        next.push(val);
+      } else if (filter === '*') {
+        if (Array.isArray(val)) next.push(...val); else next.push(val);
+      } else if (/^\d+$/.test(filter)) {
+        if (Array.isArray(val) && val[+filter] !== undefined) next.push(val[+filter]);
+      } else if (filter.includes('=')) {
+        const eq = filter.indexOf('=');
+        const fk = filter.slice(0, eq), fv = filter.slice(eq + 1);
+        if (Array.isArray(val)) next.push(...val.filter(v => v && String(v[fk]) === fv));
+      }
+    }
+    nodes = next;
+  }
+  return nodes;
+}
+
+function extractByPaths(raw, paths) {
+  const list = Array.isArray(paths) ? paths : [paths];
+  for (const path of list) {
+    const results = evalPath(raw, path);
+    const text = results.map(v => typeof v === 'string' ? v : '').join('');
+    if (text) return text;
+  }
+  return '';
+}
+
+function handleResponse(data, cfg) {
   lastDebugData = data;
   if (debugOpen) updateDebugPanel();
 
-  const raw   = data.body;
-  const isErr = data.status >= 400 || !!data.error;
-  let text    = '';
+  const raw    = data.body;
+  const isErr  = data.status >= 400 || !!data.error;
+  let   text   = '';
 
   if (!isErr && raw) {
-    if (apiType === 'gemini') {
-      // candidates[0].content.parts[0].text
-      text = raw.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('') || '';
-    } else if (apiType === 'claude') {
-      text = (raw.content||[]).filter(c=>c.type==='text').map(c=>c.text).join('');
+    const provider = cfg && cfg.provider;
+    if (provider && provider.response_path) {
+      // Generic path-based extraction
+      text = extractByPaths(raw, provider.response_path);
     } else {
-      if (raw.output) {
-        for (const item of raw.output)
-          if(item.type==='message') for(const c of item.content||[]) if(c.type==='output_text') text+=c.text;
-      } else if (raw.choices) {
-        text = raw.choices[0]?.message?.content || '';
+      // Legacy fallback keyed on api_type
+      const apiType = (cfg && cfg.api_type) || data.api_type || 'openai';
+      if (apiType === 'gemini') {
+        text = raw.candidates?.[0]?.content?.parts?.map(p=>p.text||'').join('') || '';
+      } else if (apiType === 'claude') {
+        text = (raw.content||[]).filter(c=>c.type==='text').map(c=>c.text).join('');
+      } else {
+        if (raw.output) {
+          for (const item of raw.output)
+            if(item.type==='message') for(const c of item.content||[]) if(c.type==='output_text') text+=c.text;
+        } else if (raw.choices) {
+          text = raw.choices[0]?.message?.content || '';
+        }
       }
     }
   }
@@ -797,6 +1056,10 @@ function handleResponse(data, apiType) {
   updateMsgCount();
   appendAssistantMsg(text, data, isErr);
 }
+
+// ─── Help modal ───────────────────────────────────────────────────
+function openHelp()  { document.getElementById('help-modal').classList.add('open'); }
+function closeHelp() { document.getElementById('help-modal').classList.remove('open'); }
 
 // ─── Debug ────────────────────────────────────────────────────────
 function toggleDebug() {
@@ -961,6 +1224,154 @@ function togglePwd(id,btn){
 }
 function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function fmtSize(b){ if(b<1024)return b+'B'; if(b<1048576)return (b/1024).toFixed(1)+'KB'; return (b/1048576).toFixed(1)+'MB'; }
+
+// ─── Vault (per-field named values) ──────────────────────────────
+// Storage: aig_vault = [ {type, name, value}, … ]
+let vaultTargetType   = null;   // e.g. 'host', 'bearer', 'apikey', 'geminikey', 'endpoint'
+let vaultTargetField  = null;   // DOM id of the input to fill
+
+function loadVault()        { try { return JSON.parse(localStorage.getItem('aig_vault')||'[]'); } catch(e){return[];} }
+function storeVault(list)   { localStorage.setItem('aig_vault', JSON.stringify(list)); }
+
+const VAULT_LABELS = { host:'Host', bearer:'Bearer Token', apikey:'x-ns-aig-apikey', geminikey:'Gemini Key', endpoint:'Full URL' };
+
+function openVault(type, fieldId, btn) {
+  const drop = document.getElementById('vault-drop');
+  // Toggle closed if same button clicked again
+  if (drop.classList.contains('open') && vaultTargetType === type) { closeVault(); return; }
+  vaultTargetType  = type;
+  vaultTargetField = fieldId;
+  document.getElementById('vd-title').textContent = `Saved ${VAULT_LABELS[type] || type} values`;
+  document.getElementById('vd-name-input').value  = '';
+  renderVaultList();
+  // Position below the button
+  const rect = btn.getBoundingClientRect();
+  drop.style.top  = (rect.bottom + 4) + 'px';
+  drop.style.left = Math.min(rect.left, window.innerWidth - 250) + 'px';
+  drop.classList.add('open');
+  // Close on outside click
+  setTimeout(() => document.addEventListener('click', vaultOutsideClick), 0);
+}
+
+function closeVault() {
+  document.getElementById('vault-drop').classList.remove('open');
+  document.removeEventListener('click', vaultOutsideClick);
+}
+
+function vaultOutsideClick(e) {
+  if (!document.getElementById('vault-drop').contains(e.target)) closeVault();
+}
+
+function renderVaultList() {
+  const items = loadVault().filter(e => e.type === vaultTargetType);
+  const list  = document.getElementById('vd-list');
+  if (!items.length) { list.innerHTML = '<div class="vd-empty">No saved values yet.</div>'; return; }
+  list.innerHTML = '';
+  items.forEach((entry, localIdx) => {
+    const globalIdx = loadVault().findIndex(e => e.type === entry.type && e.name === entry.name);
+    const row = document.createElement('div');
+    row.className = 'vd-item';
+    row.innerHTML = `<span class="vd-item-name" title="${esc(entry.value)}">${esc(entry.name)}</span>
+                     <button class="vd-item-del" onclick="vaultDelete(${globalIdx},event)">✕</button>`;
+    row.onclick = (e) => { if (!e.target.classList.contains('vd-item-del')) vaultApply(entry); };
+    list.appendChild(row);
+  });
+}
+
+function vaultApply(entry) {
+  const el = document.getElementById(vaultTargetField);
+  if (el) { el.value = entry.value; if (vaultTargetField === 'cfg-host') updateModelDisplay(); }
+  closeVault();
+}
+
+function vaultSaveCurrent() {
+  const name = document.getElementById('vd-name-input').value.trim();
+  if (!name) { document.getElementById('vd-name-input').focus(); return; }
+  const el  = document.getElementById(vaultTargetField);
+  const val = el ? el.value.trim() : '';
+  if (!val) return;
+  const vault   = loadVault();
+  const existing = vault.findIndex(e => e.type === vaultTargetType && e.name === name);
+  const entry   = { type: vaultTargetType, name, value: val };
+  if (existing >= 0) vault[existing] = entry; else vault.push(entry);
+  storeVault(vault);
+  document.getElementById('vd-name-input').value = '';
+  renderVaultList();
+}
+
+function vaultDelete(idx, e) {
+  e.stopPropagation();
+  const vault = loadVault();
+  vault.splice(idx, 1);
+  storeVault(vault);
+  renderVaultList();
+}
+
+// ─── Saved Prompts ────────────────────────────────────────────────
+function loadPrompts() {
+  try { return JSON.parse(localStorage.getItem('aig_prompts') || '[]'); } catch(e) { return []; }
+}
+function storePrompts(list) { localStorage.setItem('aig_prompts', JSON.stringify(list)); }
+
+function openPrompts() {
+  document.getElementById('prompt-save-name').value = '';
+  renderPromptList();
+  document.getElementById('prompts-modal').classList.add('open');
+}
+function closePrompts() { document.getElementById('prompts-modal').classList.remove('open'); }
+
+function renderPromptList() {
+  const list = document.getElementById('prompt-list');
+  const prompts = loadPrompts();
+  if (!prompts.length) { list.innerHTML = '<div class="saved-empty">No saved prompts yet.</div>'; return; }
+  list.innerHTML = '';
+  prompts.forEach((p, i) => {
+    const item = document.createElement('div');
+    item.className = 'saved-item';
+    item.title = p.text;
+    item.innerHTML = `
+      <div style="flex:1;min-width:0">
+        <div class="si-name">${esc(p.name)}</div>
+        <div class="si-sub">${esc(p.text)}</div>
+      </div>
+      <button class="btn btn-ghost" style="padding:3px 9px;font-size:10px;flex-shrink:0" onclick="insertPrompt(${i})">Insert</button>
+      <button class="si-del" onclick="deletePrompt(${i},event)">✕</button>`;
+    list.appendChild(item);
+  });
+}
+
+function savePrompt() {
+  const name = document.getElementById('prompt-save-name').value.trim();
+  const text = document.getElementById('msg-input').value.trim();
+  if (!name) { document.getElementById('prompt-save-name').focus(); return; }
+  if (!text) { closePrompts(); showSystemMsg('⚠ Type a prompt in the input first'); return; }
+  const prompts = loadPrompts();
+  const existing = prompts.findIndex(p => p.name === name);
+  const entry = { name, text };
+  if (existing >= 0) prompts[existing] = entry; else prompts.push(entry);
+  storePrompts(prompts);
+  document.getElementById('prompt-save-name').value = '';
+  renderPromptList();
+  showSystemMsg(`✓ Prompt "${name}" saved`);
+}
+
+function insertPrompt(i) {
+  const p = loadPrompts()[i];
+  if (!p) return;
+  const input = document.getElementById('msg-input');
+  input.value = p.text;
+  autoResize(input);
+  closePrompts();
+  input.focus();
+}
+
+function deletePrompt(i, e) {
+  e.stopPropagation();
+  const prompts = loadPrompts();
+  prompts.splice(i, 1);
+  storePrompts(prompts);
+  renderPromptList();
+}
 </script>
 </body>
 </html>

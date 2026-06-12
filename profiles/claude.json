@@ -1,7 +1,6 @@
 {
   "name": "Claude via AIGW",
   "api_type": "claude",
-  "endpoint_template": "http://{host}/v1/{cust_model}/model/{model_id}/invoke",
   "host": "",
   "cust_model": "cust-model",
   "model": "us.anthropic.claude-haiku-4-5-20251001-v1:0",
@@ -10,5 +9,23 @@
   "anthropic_version": "bedrock-2023-05-31",
   "max_tokens": 1024,
   "extra_headers": {},
-  "extra_body": {}
+  "extra_body": {},
+  "provider": {
+    "url": "http://{host}/v1/{cust_model}/model/{model}/invoke",
+    "messages_key": "messages",
+    "content_key": "content",
+    "role_map": {},
+    "text_part": { "type": "text", "text": "{text}" },
+    "image_part": {
+      "type": "image",
+      "source": { "type": "base64", "media_type": "{mime_type}", "data": "{base64}" }
+    },
+    "extra_body": {
+      "anthropic_version": "{anthropic_version}",
+      "max_tokens": 1024
+    },
+    "extra_headers": {},
+    "system": { "field": "system" },
+    "response_path": ["content[type=text].text"]
+  }
 }

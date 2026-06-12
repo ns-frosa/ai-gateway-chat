@@ -6,5 +6,20 @@
   "gemini_key": "",
   "api_key": "",
   "extra_headers": {},
-  "extra_body": {}
+  "extra_body": {},
+  "provider": {
+    "url": "https://{host}/v1/gemini/v1beta/models/{model}:generateContent",
+    "messages_key": "contents",
+    "content_key": "parts",
+    "role_map": { "assistant": "model" },
+    "text_part": { "text": "{text}" },
+    "image_part": { "inlineData": { "mimeType": "{mime_type}", "data": "{base64}" } },
+    "extra_body": {},
+    "extra_headers": { "x-goog-api-key": "{gemini_key}" },
+    "system": {
+      "field": "system_instruction",
+      "template": { "parts": [{ "text": "{value}" }] }
+    },
+    "response_path": ["candidates[0].content.parts[*].text"]
+  }
 }
